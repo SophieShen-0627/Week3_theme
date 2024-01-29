@@ -16,7 +16,7 @@ public class FishFlockManager : MonoBehaviour
     public float ChasingPlayerSpeed = 3.0f;
     public float ChasingPlayerDistance = 5.0f;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         instance = this;
     }
