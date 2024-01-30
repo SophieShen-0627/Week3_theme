@@ -7,6 +7,7 @@ public class OxygenBar : MonoBehaviour
 {
     public GameObject OxygenIcon;
     [SerializeField] AudioClip BubbleSound;
+    [SerializeField] AudioSource HeartbeatSound;
     [SerializeField] List<GameObject> Icons = new List<GameObject>();
     [SerializeField] ParticleSystem BubbleBroke;
     private GameObject[] IconArray;
@@ -59,6 +60,28 @@ public class OxygenBar : MonoBehaviour
             Instantiate<ParticleSystem>(BubbleBroke, IconArray[LastIconNum].transform.position, Quaternion.identity);
             LastIconNum -= 1;
         }
+
+        if (PlayerParameters.instance.PlayerCurrentOxygen <= 0)
+        {
+            HeartbeatSound.volume = 0.0f;
+        }
+        if (PlayerParameters.instance.PlayerCurrentOxygen < 1)
+        {
+            HeartbeatSound.volume = 1.0f;
+        }
+        if (PlayerParameters.instance.PlayerCurrentOxygen < 2)
+        {
+            HeartbeatSound.volume = 0.5f;
+        }
+        else if (PlayerParameters.instance.PlayerCurrentOxygen < 3)
+        {
+            HeartbeatSound.volume = 0.25f;
+        }
+        else
+        {
+            HeartbeatSound.volume = 0.0f;
+        }
+
     }
 
 }

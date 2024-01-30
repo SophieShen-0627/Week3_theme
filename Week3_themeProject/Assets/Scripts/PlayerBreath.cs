@@ -6,8 +6,10 @@ public class PlayerBreath : MonoBehaviour
 {
     private bool breathing = true;
     private PlayerParameters player;
-    [SerializeField] AudioSource BGMPlayer;
+    [SerializeField] AudioSource UnderwaterBreathSoundEffect;
+    [SerializeField] AudioSource AboveWaterBreathSoundEffect;
 
+    private float breathTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -26,17 +28,15 @@ public class PlayerBreath : MonoBehaviour
         else
         {
             player.PlayerCurrentOxygen -= Time.deltaTime * player.PlayerLoseOxygenRate;
+
+            if (!UnderwaterBreathSoundEffect.isPlaying && breathTimer <= 0.0f)
+            {
+                UnderwaterBreathSoundEffect.Play();
+                breathTimer = Random.Range(3.0f, 6.0f);
+            }
         }
 
-        if (player.PlayerCurrentOxygen < 2)
-        {
-            BGMPlayer.pitch = player.PlayerCurrentOxygen / player.PlayerMaxOxygen;
-
-        }
-        else
-        {
-            BGMPlayer.pitch = 1.0f;
-        }
+        breathTimer -= Time.deltaTime;
     }
 
 
@@ -46,6 +46,7 @@ public class PlayerBreath : MonoBehaviour
         if (collision.gameObject.tag == "Air" )
         {
             breathing = true;
+            AboveWaterBreathSoundEffect.Play();
         }
     }
 

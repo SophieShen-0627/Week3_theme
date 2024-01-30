@@ -10,10 +10,13 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float dashDuration = 2.0f;
     [SerializeField] GameObject DashParticlePrefab;
     [SerializeField] AudioSource DashSoundEffect;
+    [SerializeField] AudioSource SwimSoundEffect;
 
     private float currentSpeed;
     private float dashTimer;
     private bool dashing = false;
+
+    private float swimSoundTimer;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // dash
+
         if(dashing)
         {
             dashTimer -= Time.deltaTime;
@@ -51,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
                 currentSpeed = moveSpeed;
             }
         }
+        
+        // move player character
 
         Vector2 moveDirection = new Vector2(horizontal, vertical);
         float inputMagnitude = Mathf.Clamp01(moveDirection.magnitude);
@@ -59,11 +65,22 @@ public class PlayerMovement : MonoBehaviour
         transform.Translate(moveDirection * currentSpeed * inputMagnitude * Time.deltaTime, Space.World);
 
         // rotate player character
-        // TODO: rotate fast when the move direction is opposite of current facing direction???
+
         if (moveDirection != Vector2.zero)
         {
             Quaternion toRotate = Quaternion.LookRotation(Vector3.forward, moveDirection);
             transform.rotation = Quaternion.RotateTowards(transform.rotation, toRotate, rotationSpeed * Time.deltaTime);
+
+            if (!SwimSoundEffect.isPlaying && swimSoundTimer <= 0.0f)
+            {
+                SwimSoundEffect.Play();
+                swimSoundTimer = Random.Range(0.3f, 3.0f);
+            }
         }
+        else
+        {
+            SwimSoundEffect.Pause();
+        }
+        swimSoundTimer -= Time.deltaTime;
     }
 }
