@@ -37,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
             GameObject go = Instantiate(DashParticlePrefab, transform.position, Quaternion.identity, transform);
             go.transform.localRotation = Quaternion.Euler(0, 0, -60);
             Destroy(go, 1f);
+
+            PlayerParameters.instance.PlayerCurrentOxygen -= PlayerParameters.instance.PlayerDashingCostOxygen;
         }
 
         // dash

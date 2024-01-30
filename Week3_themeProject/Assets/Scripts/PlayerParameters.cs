@@ -13,7 +13,8 @@ public class PlayerParameters : MonoBehaviour
     public float OxygenSupplyTime = 1;                // how long it will take for player oxygen rate can rise from 0 to max;
     public float PlayerDetectFishDistance = 2;
     public float PlayerLoseSpeedRate = 0.6f;
-    public float PlayerOxygenCostIncreaseRate = 1.5f;       
+    public float PlayerOxygenCostIncreaseRate = 1.5f;
+    public float PlayerDashingCostOxygen = 0.6f;
 
     // Start is called before the first frame update
     private void Start()

@@ -8,6 +8,7 @@ public class PlayerBreath : MonoBehaviour
     private PlayerParameters player;
     [SerializeField] AudioSource BGMPlayer;
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +20,7 @@ public class PlayerBreath : MonoBehaviour
     {
         if (breathing)
         {
-            player.PlayerCurrentOxygen += Time.deltaTime * player.PlayerLoseOxygenRate;
+            player.PlayerCurrentOxygen += Time.deltaTime * (PlayerParameters.instance.PlayerMaxOxygen / PlayerParameters.instance.OxygenSupplyTime);
             player.PlayerCurrentOxygen = Mathf.Min(player.PlayerMaxOxygen, player.PlayerCurrentOxygen);
         }
         else
@@ -38,19 +39,28 @@ public class PlayerBreath : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+
+
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Water")
+        if (collision.gameObject.tag == "Air" )
         {
             breathing = true;
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject.tag == "Water")
+        if (collision.gameObject.tag == "Air")
         {
             breathing = false;
+        }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Air")
+        {
+            breathing = true;
         }
     }
 }

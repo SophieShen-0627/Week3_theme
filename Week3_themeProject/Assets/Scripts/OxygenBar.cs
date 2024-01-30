@@ -45,6 +45,10 @@ public class OxygenBar : MonoBehaviour
         if (CurrentIconNum == PlayerParameters.instance.PlayerMaxOxygen) CurrentIconNum = PlayerParameters.instance.PlayerMaxOxygen - 1;
         GameObject CurrentIcon = IconArray[CurrentIconNum];
 
+        for (int i = CurrentIconNum + 1; i < PlayerParameters.instance.PlayerMaxOxygen; i++)
+        {
+            IconArray[i].GetComponent<Image>().color = new Color(1, 1, 1, 0);
+        }
         float CurrentAlpha = PlayerParameters.instance.PlayerCurrentOxygen - CurrentIconNum;
 
         CurrentIcon.GetComponent<Image>().color = new Color(1, 1, 1, CurrentAlpha);
