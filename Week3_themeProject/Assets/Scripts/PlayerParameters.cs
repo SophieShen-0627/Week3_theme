@@ -32,6 +32,7 @@ public class PlayerParameters : MonoBehaviour
         if (PlayerCurrentOxygen <= 0)
         {
             Time.timeScale = 0;
+            AudioManager.instance.MuteSFX();
         }
         if (Input.GetKeyDown(KeyCode.R)) 
         {

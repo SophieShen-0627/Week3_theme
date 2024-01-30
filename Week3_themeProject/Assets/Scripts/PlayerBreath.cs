@@ -29,7 +29,7 @@ public class PlayerBreath : MonoBehaviour
         {
             player.PlayerCurrentOxygen -= Time.deltaTime * player.PlayerLoseOxygenRate;
 
-            if (!UnderwaterBreathSoundEffect.isPlaying && breathTimer <= 0.0f)
+            if (!AboveWaterBreathSoundEffect.isPlaying && !UnderwaterBreathSoundEffect.isPlaying && breathTimer <= 0.0f)
             {
                 UnderwaterBreathSoundEffect.Play();
                 breathTimer = Random.Range(3.0f, 6.0f);
