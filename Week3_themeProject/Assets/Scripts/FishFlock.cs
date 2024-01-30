@@ -2,25 +2,45 @@ using UnityEngine;
 
 public class FishFlock : MonoBehaviour
 {
-    Vector3 OriginPlc;
-    bool CanChase = true;
+    [SerializeField] Vector3 OriginPlc;
+
+    PlayerMovement player;
 
     private void Start()
     {
-        OriginPlc = transform.position;
+        OriginPlc = (Vector3)transform.position;
+        player = FindObjectOfType<PlayerMovement>();
     }
     void Update()
     {
         ApplyFlockingRules();
+        FindPlayer();
         Move();
     }
 
+    void FindPlayer()
+    {
+        Vector2 playerPos = Vector2.zero;
+
+        if (Vector2.Distance(player.transform.position, OriginPlc) <= FishFlockManager.instance.ChasingPlayerDistance )
+        {
+            playerPos = player.transform.position;
+        }
+        else
+        {
+            playerPos = Vector2.zero;
+        }
+
+
+        if (playerPos != Vector2.zero)
+            transform.position += ((Vector3)playerPos - transform.position) * Time.deltaTime * FishFlockManager.instance.ChasingPlayerSpeed;
+    }
     void ApplyFlockingRules()
     {
         Vector2 cohesion = Vector2.zero;
         Vector2 separation = Vector2.zero;
         Vector2 alignment = Vector2.zero;
-        Vector2 playerPos = Vector2.zero;
+
 
         int neighborsCount = 0;
 
@@ -41,18 +61,6 @@ public class FishFlock : MonoBehaviour
                 neighborsCount++;
             }
 
-            if (collider.gameObject.tag == "Player")
-            {
-                if (Vector3.Distance(collider.transform.position, OriginPlc) <= FishFlockManager.instance.ChasingPlayerDistance && CanChase)
-                {
-                    playerPos = collider.gameObject.transform.position;
-                }
-                else
-                {
-                    playerPos = OriginPlc;
-                    CanChase = false;
-                }
-            }
         }
 
         if (neighborsCount > 0)
@@ -72,7 +80,7 @@ public class FishFlock : MonoBehaviour
             // Apply separation force
             transform.position += (Vector3)separation.normalized * FishFlockManager.instance.speed * Time.deltaTime * FishFlockManager.instance.SeperationRate;
 
-            transform.position += (Vector3)playerPos * FishFlockManager.instance.speed * Time.deltaTime * FishFlockManager.instance.ChasingPlayerSpeed;
+
         }
     }
 
@@ -81,9 +89,6 @@ public class FishFlock : MonoBehaviour
         // Move forward
         transform.position += transform.right * FishFlockManager.instance.speed * Time.deltaTime;
 
-        if (Vector3.Distance(transform.position, OriginPlc) <= (FishFlockManager.instance.ChasingPlayerDistance - FishFlockManager.instance.neighborRadius))
-        {
-            CanChase = true;
-        }
+
     }
 }

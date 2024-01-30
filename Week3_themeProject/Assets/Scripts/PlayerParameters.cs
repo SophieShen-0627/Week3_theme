@@ -11,6 +11,9 @@ public class PlayerParameters : MonoBehaviour
     public float PlayerCurrentOxygen = 5;              //player current oxygen, decreasing if player is in water.
     public float PlayerLoseOxygenRate = 1;             //how long it will take for player oxygen rate from max to zero
     public float OxygenSupplyTime = 1;                // how long it will take for player oxygen rate can rise from 0 to max;
+    public float PlayerDetectFishDistance = 2;
+    public float PlayerLoseSpeedRate = 0.6f;
+    public float PlayerOxygenCostIncreaseRate = 1.5f;       
 
     // Start is called before the first frame update
     private void Start()
