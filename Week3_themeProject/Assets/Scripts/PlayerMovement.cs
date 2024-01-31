@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] bool PlayerIsAlive = true;
     [SerializeField] GameObject torch;
     [SerializeField] ParticleSystem Death;
+    [SerializeField] AudioClip DeathAudio;
 
     private float currentSpeed;
     private float dashTimer;
@@ -117,10 +118,11 @@ public class PlayerMovement : MonoBehaviour
 
         torch.SetActive(false);
 
-        if (!!hasplaydeathparticle)
+        if (!hasplaydeathparticle)
         {
             Death.Play();
             hasplaydeathparticle = true;
+            GetComponent<AudioSource>().PlayOneShot(DeathAudio);
         }
     }
 }

@@ -15,7 +15,7 @@ public class PlayerParameters : MonoBehaviour
     public float PlayerLoseSpeedRate = 0.6f;
     public float PlayerOxygenCostIncreaseRate = 1.5f;
     public float PlayerDashingCostOxygen = 0.6f;
-    public AudioClip DeathAudio;
+    
 
     // Start is called before the first frame update
     private void Start()
@@ -33,8 +33,6 @@ public class PlayerParameters : MonoBehaviour
         if (PlayerCurrentOxygen <= 0)
         {
             AudioManager.instance.MuteSFX();
-
-            GetComponent<AudioSource>().PlayOneShot(DeathAudio);
 
         }
         if (Input.GetKeyDown(KeyCode.R)) 

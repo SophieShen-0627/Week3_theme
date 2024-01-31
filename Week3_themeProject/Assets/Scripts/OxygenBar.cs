@@ -61,19 +61,19 @@ public class OxygenBar : MonoBehaviour
             LastIconNum -= 1;
         }
 
-        if (PlayerParameters.instance.PlayerCurrentOxygen <= 0)
+        if (PlayerParameters.instance.PlayerCurrentOxygen <= 0.0f)
         {
             HeartbeatSound.volume = 0.0f;
         }
-        if (PlayerParameters.instance.PlayerCurrentOxygen < 1)
+        if (PlayerParameters.instance.PlayerCurrentOxygen < 1.0f)
         {
             HeartbeatSound.volume = 1.0f;
         }
-        if (PlayerParameters.instance.PlayerCurrentOxygen < 2)
+        if (PlayerParameters.instance.PlayerCurrentOxygen < 2.0f)
         {
             HeartbeatSound.volume = 0.5f;
         }
-        else if (PlayerParameters.instance.PlayerCurrentOxygen < 3)
+        else if (PlayerParameters.instance.PlayerCurrentOxygen < 3.0f)
         {
             HeartbeatSound.volume = 0.25f;
         }
