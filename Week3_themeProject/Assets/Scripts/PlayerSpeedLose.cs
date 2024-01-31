@@ -6,6 +6,7 @@ public class PlayerSpeedLose : MonoBehaviour
 {
     PlayerMovement player;
     [SerializeField] bool hasFish = false;
+    [SerializeField] ParticleSystem FishParticle;
 
     float originMoveSpeed;
     float originOxygenSpeed;
@@ -35,11 +36,14 @@ public class PlayerSpeedLose : MonoBehaviour
 
         if (hasFish)
         {
+            if (!FishParticle.isPlaying)
+                FishParticle.Play();
             player.moveSpeed = PlayerParameters.instance.PlayerLoseSpeedRate * originMoveSpeed;
             PlayerParameters.instance.PlayerLoseOxygenRate = PlayerParameters.instance.PlayerOxygenCostIncreaseRate * originOxygenSpeed;
         }
         else
         {
+            FishParticle.Stop();
             player.moveSpeed = originMoveSpeed;
             PlayerParameters.instance.PlayerLoseOxygenRate = originOxygenSpeed;
         }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 4.0f;
@@ -12,20 +13,36 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] AudioSource DashSoundEffect;
     [SerializeField] AudioSource SwimSoundEffect;
 
+    [SerializeField] bool PlayerIsAlive = true;
+    [SerializeField] GameObject torch;
+    [SerializeField] ParticleSystem Death;
+
     private float currentSpeed;
     private float dashTimer;
     private bool dashing = false;
+    private float DeathTimer = 0;
 
     private float swimSoundTimer;
+    private bool hasplaydeathparticle = false;
 
     // Start is called before the first frame update
     void Start()
     {
         currentSpeed = moveSpeed;
+        DeathTimer = 0;
     }
 
     // Update is called once per frame
     void Update()
+    {
+        checkPlayerAlive();
+
+
+        if (PlayerIsAlive) playerMovements();
+        else DoDeath();
+    }
+
+    void playerMovements()
     {
         // capture input
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -46,16 +63,16 @@ public class PlayerMovement : MonoBehaviour
 
         // dash
 
-        if(dashing)
+        if (dashing)
         {
             dashTimer -= Time.deltaTime;
-            if (dashTimer <= 0) 
+            if (dashTimer <= 0)
             {
                 dashing = false;
                 currentSpeed = moveSpeed;
             }
         }
-        
+
         // move player character
 
         Vector2 moveDirection = new Vector2(horizontal, vertical);
@@ -82,5 +99,28 @@ public class PlayerMovement : MonoBehaviour
             SwimSoundEffect.Pause();
         }
         swimSoundTimer -= Time.deltaTime;
+    }
+
+    void checkPlayerAlive()
+    {
+        if (PlayerParameters.instance.PlayerCurrentOxygen > 0) PlayerIsAlive = true;
+        else PlayerIsAlive = false;
+    }
+
+    void DoDeath()
+    {
+        SpriteRenderer sprite = GetComponent<SpriteRenderer>();
+        DeathTimer += Time.deltaTime;
+
+        if (DeathTimer <= 1)
+         sprite.color = new Color(1, 1, 1, 1 - DeathTimer);
+
+        torch.SetActive(false);
+
+        if (!!hasplaydeathparticle)
+        {
+            Death.Play();
+            hasplaydeathparticle = true;
+        }
     }
 }
