@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject DashParticlePrefab;
     [SerializeField] AudioSource DashSoundEffect;
     [SerializeField] AudioSource SwimSoundEffect;
+    [SerializeField] AudioSource DeathSoundEffect;
 
     [SerializeField] bool PlayerIsAlive = true;
     [SerializeField] GameObject torch;
@@ -122,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Death.Play();
             hasplaydeathparticle = true;
-            GetComponent<AudioSource>().PlayOneShot(DeathAudio);
+            DeathSoundEffect.Play();
         }
     }
 }
